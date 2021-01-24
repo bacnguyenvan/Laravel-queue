@@ -5,7 +5,7 @@ namespace App\Observers;
 use App\User;
 use App\Jobs\sendEmail;
 use App\Mail\TestMail;
-
+use Carbon\Carbon;
 
 class UserObserve
 {
@@ -20,7 +20,7 @@ class UserObserve
         for($i = 0 ;$i < 10 ;$i++){
             $testMail = new TestMail();
 
-            $sendMailJob = new sendEmail($testMail, $user);
+            $sendMailJob = (new sendEmail($testMail, $user))->delay(\Carbon::now()->addSeconds(3));
             
             dispatch($sendMailJob);
         }
